@@ -1,0 +1,11 @@
+name: "My R Markdown Website"
+navbar:
+  title: "My Website"
+  left:
+    # - text: "Home"
+    #   href: index.html
+    # - text: "About"
+    #   href: about.html
+    - text: "Analysis"
+      href: 01_introR-R-and-RStudio.Rmd
+output_dir: "."
