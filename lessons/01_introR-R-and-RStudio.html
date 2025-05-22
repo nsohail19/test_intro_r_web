@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Introduction to R and RStudio</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="01_introR-R-and-RStudio.Rmd">Analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R and RStudio</h1>
+<h4 class="date">Friday, September 8, 2017</h4>
+
+</div>
+
+
+<p>Approximate time: 45 minutes</p>
+<div id="learning-objectives" class="section level2">
+<h2>Learning Objectives</h2>
+<ul>
+<li>Describe what R and RStudio are.</li>
+<li>Interact with R using RStudio.</li>
+<li>Familiarize various components of RStudio.</li>
+<li>Employ variables in R.</li>
+</ul>
+</div>
+<div id="what-is-r" class="section level2">
+<h2>What is R?</h2>
+<p>The common misconception is that R is a programming language but in
+fact it is much more than that. Think of R as an environment for
+statistical computing and graphics, which brings together a number of
+features to provide powerful functionality.</p>
+<p>The R environment combines:</p>
+<ul>
+<li>effective handling of big data</li>
+<li>collection of integrated tools</li>
+<li>graphical facilities</li>
+<li>simple and effective programming language</li>
+</ul>
+</div>
+<div id="why-use-r" class="section level2">
+<h2>Why use R?</h2>
+<p><img src="../img/why_R.png" width="600"/></p>
+<p>R is a powerful, extensible environment. It has a wide range of
+statistics and general data analysis and visualization capabilities.</p>
+<ul>
+<li>Data handling, wrangling, and storage</li>
+<li>Wide array of statistical methods and graphical techniques
+available</li>
+<li>Easy to install on any platform and use (and it’s free!)</li>
+<li>Open source with a large and growing community of peers</li>
+</ul>
+<div id="examples-of-r-used-in-the-media-and-science"
+class="section level4">
+<h4>Examples of R used in the media and science</h4>
+<ul>
+<li><em>“At the BBC data team, we have developed an R package and an R
+cookbook to make the process of creating publication-ready graphics in
+our in-house style…”</em> - <a
+href="https://bbc.github.io/rcookbook/">BBC Visual and Data Journalism
+cookbook for R graphics</a></li>
+<li><em>“R package of data and code behind the stories and interactives
+at FiveThirtyEight.com, a data-driven journalism website founded by Nate
+Silver (initially began as a polling aggregation site, but now covers
+politics, sports, science and pop culture) and owned by ESPN…”</em> - <a
+href="https://cran.r-project.org/web/packages/fivethirtyeight/vignettes/fivethirtyeight.html">fivethirtyeight
+Package</a></li>
+<li><a href="https://satijalab.org/seurat/">Single Cell RNA-seq Data
+analysis with Seurat</a></li>
+</ul>
+</div>
+</div>
+<div id="what-is-rstudio" class="section level2">
+<h2>What is RStudio?</h2>
+<p>RStudio is freely available open-source Integrated Development
+Environment (IDE). RStudio provides an environment with many features to
+make using R easier and is a great alternative to working on R in the
+terminal.</p>
+<p><img src="../img/rstudio_logo.png" width="300"/></p>
+<ul>
+<li>Graphical user interface, not just a command prompt</li>
+<li>Great learning tool</li>
+<li>Free for academic use</li>
+<li>Platform agnostic</li>
+<li>Open source</li>
+</ul>
+</div>
+<div id="creating-a-new-project-directory-in-rstudio"
+class="section level2">
+<h2>Creating a new project directory in RStudio</h2>
+<p>Let’s create a new project directory for our “Introduction to R”
+lesson today.</p>
+<ol style="list-style-type: decimal">
+<li>Open RStudio</li>
+<li>Go to the <code>File</code> menu and select
+<code>New Project</code>.</li>
+<li>In the <code>New Project</code> window, choose
+<code>New Directory</code>. Then, choose <code>New Project</code>. Name
+your new directory <code>Intro-to-R</code> and then “Create the project
+as subdirectory of:” the Desktop (or location of your choice).</li>
+<li>Click on <code>Create Project</code>.</li>
+</ol>
+<p align="center">
+<p><img src="../img/Opening_Project.gif" width="900"/></p>
+</p>
+<ol start="5" style="list-style-type: decimal">
+<li>After your project is completed, if the project does not
+automatically open in RStudio, then go to the <code>File</code> menu,
+select <code>Open Project</code>, and choose
+<code>Intro-to-R.Rproj</code>.</li>
+<li>When RStudio opens, you will see three panels in the window.</li>
+<li>Go to the <code>File</code> menu and select <code>New File</code>,
+and select <code>R Script</code>.</li>
+<li>Go to the <code>File</code> menu and select <code>Save As...</code>,
+type <code>Intro-to-R.R</code> and select <code>Save</code></li>
+</ol>
+<p align="center">
+<p><img src="../img/Opening_RScript.gif" width="900"/></p>
+</p>
+<p>The RStudio interface should now look like the screenshot below.</p>
+<div class="float">
+<img src="../img/Rstudio_interface.png" alt="RStudio interface" />
+<div class="figcaption">RStudio interface</div>
+</div>
+<div id="what-is-a-project-in-rstudio" class="section level3">
+<h3>What is a project in RStudio?</h3>
+<p>It is simply a directory that contains everything related your
+analyses for a specific project. RStudio projects are useful when you
+are working on context- specific analyses and you wish to keep them
+separate. When creating a project in RStudio you associate it with a
+working directory of your choice (either an existing one, or a new one).
+A <code>. RProj file</code> is created within that directory and that
+keeps track of your command history and variables in the environment.
+The <code>. RProj file</code> can be used to open the project in its
+current state but at a later date.</p>
+<p>When a project is <strong>(re) opened</strong> within RStudio the
+following actions are taken:</p>
+<ul>
+<li>A new R session (process) is started</li>
+<li>The .RData file in the project’s main directory is loaded,
+populating the environment with any objects that were present when the
+project was closed.</li>
+<li>The .Rhistory file in the project’s main directory is loaded into
+the RStudio History pane (and used for Console Up/Down arrow command
+history).</li>
+<li>The current working directory is set to the project directory.</li>
+<li>Previously edited source documents are restored into editor
+tabs</li>
+<li>Other RStudio settings (e.g. active tabs, splitter positions, etc.)
+are restored to where they were the last time the project was
+closed.</li>
+</ul>
+<p><em>Information adapted from <a
+href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio
+Support Site</a></em></p>
+</div>
+</div>
+<div id="rstudio-interface" class="section level2">
+<h2>RStudio Interface</h2>
+<p><strong>The RStudio interface has four main panels:</strong></p>
+<ol style="list-style-type: decimal">
+<li><strong>Console</strong>: where you can type commands and see
+output. <em>The console is all you would see if you ran R in the command
+line without RStudio.</em></li>
+<li><strong>Script editor</strong>: where you can type out commands and
+save to file. You can also submit the commands to run in the
+console.</li>
+<li><strong>Environment/History</strong>: environment shows all active
+objects and history keeps track of all commands run in console</li>
+<li><strong>Files/Plots/Packages/Help</strong></li>
+</ol>
+</div>
+<div id="organizing-your-working-directory-setting-up"
+class="section level2">
+<h2>Organizing your working directory &amp; setting up</h2>
+<div id="viewing-your-working-directory" class="section level3">
+<h3>Viewing your working directory</h3>
+<p>Before we organize our working directory, let’s check to see where
+our current working directory is located by typing into the console:</p>
+<pre class="r"><code>getwd()</code></pre>
+<pre><code>## [1] &quot;/Users/nos491/Desktop/test_intro_r_web/lessons&quot;</code></pre>
+<p>Your working directory should be the <code>Intro-to-R</code> folder
+constructed when you created the project. The working directory is where
+RStudio will automatically look for any files you bring in and where it
+will automatically save any files you create, unless otherwise
+specified.</p>
+<p>You can visualize your working directory by selecting the
+<code>Files</code> tab from the
+<strong>Files/Plots/Packages/Help</strong> window.</p>
+<p align="center">
+<p><img src="../img/Get_wd.png" width="400"/></p>
+</p>
+<p>If you wanted to choose a different directory to be your working
+directory, you could navigate to a different folder in the
+<code>Files</code> tab, then, click on the <code>More</code> dropdown
+menu which appears as a Cog and select
+<code>Set As Working Directory</code>.</p>
+<p align="center">
+<p><img src="../img/Set_wd.png" width="400"/></p>
+</p>
+</div>
+<div id="structuring-your-working-directory" class="section level3">
+<h3>Structuring your working directory</h3>
+<p>To organize your working directory for a particular analysis, you
+should separate the original data (raw data) from intermediate datasets.
+For instance, you may want to create a <code>data/</code> directory
+within your working directory that stores the raw data, and have a
+<code>results/</code> directory for intermediate datasets and a
+<code>figures/</code> directory for the plots you will generate.</p>
+<p align="center">
+<p><img src="../img/Add_Rstudio_folder.gif" width="900"/></p>
+</p>
+<p>Let’s create these three directories within your working directory by
+clicking on <code>New Folder</code> within the <code>Files</code>
+tab.</p>
+<p>When finished, your working directory should look like:</p>
+<p align="center">
+<p><img src="../img/Complete_wd_setup.png" width="400"/></p>
+</p>
+</div>
+<div id="setting-up" class="section level3">
+<h3>Setting up</h3>
+<p>This is more of a housekeeping task. We will be writing long lines of
+code in our script editor and want to make sure that the lines “wrap”
+and you don’t have to scroll back and forth to look at your long line of
+code.</p>
+<p>Click on “Code” at the top of your RStudio screen and select “Soft
+Wrap Long Lines” in the pull down menu.</p>
+<p align="center">
+<p><img src="../img/Soft_wrap.gif" width="600"/></p>
+</p>
+</div>
+</div>
+<div id="interacting-with-r" class="section level2">
+<h2>Interacting with R</h2>
+<p>Now that we have our interface and directory structure set up, let’s
+start playing with R! There are <strong>two main ways</strong> of
+interacting with R in RStudio: using the <strong>console</strong> or by
+using <strong>script editor</strong> (plain text files that contain your
+code).</p>
+<div id="console-window" class="section level3">
+<h3>Console window</h3>
+<p>The <strong>console window</strong> (in RStudio, the bottom left
+panel) is the place where R is waiting for you to tell it what to do,
+and where it will show the results of a command. You can type commands
+directly into the console, but they will be forgotten when you close the
+session.</p>
+<p>Let’s test it out:</p>
+<pre class="r"><code>3 + 5</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p align="center">
+<p><img src="../img/Console.png" width="400"/></p>
+</p>
+</div>
+<div id="script-editor" class="section level3">
+<h3>Script editor</h3>
+<p>Best practice is to enter the commands in the <strong>script
+editor</strong>, and save the script. You are encouraged to comment
+liberally to describe the commands you are running using <code>#</code>.
+This way, you have a complete record of what you did, you can easily
+show others how you did it and you can do it again later on if
+needed.</p>
+<p><strong>The Rstudio script editor allows you to ‘send’ the current
+line or the currently highlighted text to the R console by clicking on
+the <code>Run</code> button in the upper-right hand corner of the script
+editor</strong>.</p>
+<p>Now let’s try entering commands to the <strong>script editor</strong>
+and using the comments character <code>#</code> to add descriptions and
+highlighting the text to run:</p>
+<pre><code># Intro to R Lesson
+# Feb 16th, 2016
+
+# Interacting with R
+
+## I am adding 3 and 5. R is fun!
+3+5</code></pre>
+<p align="center">
+<p><img src="../img/Run_script_1.gif" width="700"/></p>
+</p>
+<p>Alternatively, you can run by simply pressing the <code>Ctrl</code>
+and <code>Return/Enter</code> keys at the same time as a shortcut.</p>
+<p align="center">
+<p><img src="../img/Run_script_2.gif" width="700"/></p>
+</p>
+<p>You should see the command run in the console and output the
+result.</p>
+<p align="center">
+<p><img src="../img/Script_editor_output.png" width="400"/></p>
+</p>
+<p>What happens if we do that same command without the comment symbol
+<code>#</code>? Re-run the command after removing the # sign in the
+front:</p>
+<pre class="r"><code># I am adding 3 and 5. R is fun!
+3+5</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p>Now R is trying to run that sentence as a command, and it doesn’t
+work. We get an error in the console <em>“Error: unexpected symbol in”I
+am” means that the R interpreter did not know what to do with that
+command.”</em></p>
+</div>
+<div id="console-command-prompt" class="section level3">
+<h3>Console command prompt</h3>
+<p>Interpreting the command prompt can help understand when R is ready
+to accept commands. Below lists the different states of the command
+prompt and how you can exit a command:</p>
+<p><strong>Console is ready to accept commands</strong>:
+<code>&gt;</code>.</p>
+<p>If R is ready to accept commands, the R console shows a
+<code>&gt;</code> prompt.</p>
+<p>When the console receives a command (by directly typing into the
+console or running from the script editor (<code>Ctrl-Enter</code>), R
+will try to execute it.</p>
+<p>After running, the console will show the results and come back with a
+new <code>&gt;</code> prompt to wait for new commands.</p>
+<p><strong>Console is waiting for you to enter more data</strong>:
+<code>+</code>.</p>
+<p>If R is still waiting for you to enter more data because it isn’t
+complete yet, the console will show a <code>+</code> prompt. It means
+that you haven’t finished entering a complete command. Often this can be
+due to you having not ‘closed’ a parenthesis or quotation.</p>
+<p><strong>Escaping a command and getting a new prompt</strong>:
+<code>esc</code></p>
+<p>If you’re in Rstudio and you can’t figure out why your command isn’t
+running, you can click inside the console window and press
+<code>esc</code> to escape the command and bring back a new prompt
+<code>&gt;</code>.</p>
+</div>
+<div id="keyboard-shortcuts-in-rstudio" class="section level3">
+<h3>Keyboard shortcuts in RStudio</h3>
+<p>In addition to some of the shortcuts described earlier in this
+lesson, we have listed a few more that can be helpful as you work in
+RStudio.</p>
+<table>
+<colgroup>
+<col width="42%" />
+<col width="57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>key</th>
+<th>action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><kbd>Ctrl</kbd>+<kbd>Enter</kbd></td>
+<td>Run command from script editor in console</td>
+</tr>
+<tr class="even">
+<td><kbd>ESC</kbd></td>
+<td>Escape the current command to return to the command prompt</td>
+</tr>
+<tr class="odd">
+<td><kbd>Ctrl</kbd>+<kbd>1</kbd></td>
+<td>Move cursor from console to script editor</td>
+</tr>
+<tr class="even">
+<td><kbd>Ctrl</kbd>+<kbd>2</kbd></td>
+<td>Move cursor from script editor to console</td>
+</tr>
+<tr class="odd">
+<td><kbd>Tab</kbd></td>
+<td>Use this key to complete a file path</td>
+</tr>
+<tr class="even">
+<td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd></td>
+<td>Comment the block of highlighted text</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Exercise</strong></p>
+<ol style="list-style-type: decimal">
+<li>Try highlighting only <code>3 +</code> from your script editor and
+running it. Find a way to bring back the command prompt
+<code>&gt;</code> in the console.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="the-r-syntax" class="section level2">
+<h2>The R syntax</h2>
+<p>Now that we know how to talk with R via the script editor or the
+console, we want to use R for something more than adding numbers. To do
+this, we need to know more about the R syntax.</p>
+<p>The main “parts of speech” in R (syntax) include:</p>
+<ul>
+<li>the <strong>comments</strong> <code>#</code> and how they are used
+to document function and its content</li>
+<li><strong>variables</strong> and <strong>functions</strong></li>
+<li>the <strong>assignment operator</strong> <code>&lt;-</code></li>
+<li>the <code>=</code> for <strong>arguments</strong> in functions</li>
+</ul>
+<p><em>NOTE: indentation and consistency in spacing is used to improve
+clarity and legibility</em></p>
+<p>We will go through each of these “parts of speech” in more detail,
+starting with the assignment operator.</p>
+</div>
+<div id="assignment-operator" class="section level2">
+<h2>Assignment operator</h2>
+<p>To do useful and interesting things in R, we need to assign
+<em>values</em> to <em>variables</em> using the assignment operator,
+<code>&lt;-</code>. For example, we can use the assignment operator to
+assign the value of <code>3</code> to <code>x</code> by executing:</p>
+<pre class="r"><code>x &lt;- 3</code></pre>
+<p>The assignment operator (<code>&lt;-</code>) assigns <strong>values
+on the right</strong> to <strong>variables on the left</strong>.</p>
+<p><em>In RStudio, typing <code>Alt + -</code> (push <code>Alt</code> at
+the same time as the <code>-</code> key, on Mac type
+<code>option + -</code>) will write <code>&lt;-</code> in a single
+keystroke.</em></p>
+</div>
+<div id="variables" class="section level2">
+<h2>Variables</h2>
+<p>A variable is a symbolic name for (or reference to) information.
+Variables in computer programming are analogous to “buckets”, where
+information can be maintained and referenced. On the outside of the
+bucket is a name. When referring to the bucket, we use the name of the
+bucket, not the data stored in the bucket.</p>
+<p>In the example above, we created a variable or a ‘bucket’ called
+<code>x</code>. Inside we put a value, <code>3</code>.</p>
+<p>Let’s create another variable called <code>y</code> and give it a
+value of 5.</p>
+<pre class="r"><code>y &lt;- 5</code></pre>
+<p>When assigning a value to an variable, R does not print anything to
+the console. You can force to print the value by using parentheses or by
+typing the variable name.</p>
+<pre class="r"><code>y</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>You can also view information on the variable by looking in your
+<code>Environment</code> window in the upper right-hand corner of the
+RStudio interface.</p>
+<p align="center">
+<p><img src="../img/Environment.png" width="300"/></p>
+</p>
+<p>Now we can reference these buckets by name to perform mathematical
+operations on the values contained within. What do you get in the
+console for the following operation:</p>
+<pre class="r"><code>x + y</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p>Try assigning the results of this operation to another variable
+called <code>number</code>.</p>
+<pre class="r"><code>number &lt;- x + y</code></pre>
+<hr />
+<p><strong>Exercises</strong></p>
+<ol style="list-style-type: decimal">
+<li>Try changing the value of the variable <code>x</code> to 5. What
+happens to <code>number</code>?</li>
+<li>Now try changing the value of variable <code>y</code> to contain the
+value 10. What do you need to do, to update the variable
+<code>number</code>?</li>
+</ol>
+<hr />
+<div id="tips-on-variable-names" class="section level3">
+<h3>Tips on variable names</h3>
+<p>Variables can be given almost any name, such as <code>x</code>,
+<code>current_temperature</code>, or <code>subject_id</code>. However,
+there are some rules / suggestions you should keep in mind:</p>
+<ul>
+<li>Make your names explicit and not too long.</li>
+<li>Avoid names starting with a number (<code>2x</code> is not valid but
+<code>x2</code> is)</li>
+<li>Avoid names of fundamental functions in R (e.g., <code>if</code>,
+<code>else</code>, <code>for</code>, see <a
+href="https://statisticsglobe.com/r-functions-list/">here</a> for a
+complete list). In general, even if it’s allowed, it’s best to not use
+other function names (e.g., <code>c</code>, <code>T</code>,
+<code>mean</code>, <code>data</code>) as variable names. When in doubt
+check the help to see if the name is already in use.</li>
+<li>Avoid dots (<code>.</code>) within a variable name as in
+<code>my.dataset</code>. There are many functions in R with dots in
+their names for historical reasons, but because dots have a special
+meaning in R (for methods) and other programming languages, it’s best to
+avoid them.</li>
+<li>Use nouns for object names and verbs for function names</li>
+<li>Keep in mind that <strong>R is case sensitive</strong> (e.g.,
+<code>genome_length</code> is different from
+<code>Genome_length</code>)</li>
+<li>Be consistent with the styling of your code (where you put spaces,
+how you name variable, etc.). In R, two popular style guides are <a
+href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s style
+guide</a> and <a
+href="http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html">Google’s</a>.</li>
+</ul>
+</div>
+</div>
+<div id="interacting-with-data-in-r" class="section level2">
+<h2>Interacting with data in R</h2>
+<p>R is commonly used for handling big data, and so it only makes sense
+that we learn about R in the context of some kind of relevant data.
+Let’s take a few minutes to add files to the folders we created and
+familiarize ourselves with the data.</p>
+<div id="adding-files-to-your-working-directory" class="section level3">
+<h3>Adding files to your working directory</h3>
+<p>You can access the files we need for this workshop using the links
+provided below. If you right click on the link, and “Save link as..”.
+Choose <code>~/Desktop/Intro-to-R/data</code> as the destination of the
+file. You should now see the file appear in your working directory.
+<strong>We will discuss these files a bit later in the
+lesson.</strong></p>
+<ul>
+<li>Download the <strong>normalized counts file</strong> by right
+clicking on <a
+href="https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionII/data/counts.rpkm.csv">this
+link</a></li>
+<li>Download <strong>metadata file</strong> using <a
+href="https://github.com/hbc/NGS_Data_Analysis_Course/raw/master/sessionII/data/mouse_exp_design.csv">this
+link</a></li>
+<li>Download the <strong>functional analysis output file</strong> using
+<a
+href="https://github.com/hbctraining/Training-modules/blob/master/Tidyverse_ggplot2/data/gprofiler_results_Mov10oe.csv?raw=true">this
+link</a></li>
+</ul>
+<blockquote>
+<p><em>NOTE:</em> If the files download automatically to some other
+location on your laptop, you can move them to the your working directory
+using your file explorer or finder (outside RStudio), or navigating to
+the files in the <code>Files</code> tab of the bottom right panel of
+RStudio</p>
+</blockquote>
+</div>
+<div id="the-dataset" class="section level3">
+<h3>The dataset</h3>
+<p>In this example dataset, we have collected whole brain samples from
+12 mice and want to evaluate expression differences between them. The
+expression data represents normalized count data obtained from
+RNA-sequencing of the 12 brain samples. This data is stored in a comma
+separated values (CSV) file as a 2-dimensional matrix, with <strong>each
+row corresponding to a gene and each column corresponding to a
+sample</strong>.</p>
+<p align="center">
+<p><img src="../img/counts_view.png" width="900"/></p>
+</p>
+</div>
+<div id="the-metadata" class="section level3">
+<h3>The metadata</h3>
+<p>We have another file in which we identify <strong>information about
+the data</strong> or <strong>metadata</strong>. Our metadata is also
+stored in a CSV file. In this file, each row corresponds to a sample and
+each column contains some information about each sample.</p>
+<p>The first column contains the row names, and <strong>note that these
+are identical to the column names in our expression data file
+above</strong> (albeit, in a slightly different order). The next few
+columns contain information about our samples that allow us to
+categorize them. For example, the second column contains genotype
+information for each sample. Each sample is classified in one of two
+categories: Wt (wild type) or KO (knockout). <em>What types of
+categories do you observe in the remaining columns?</em></p>
+<p align="center">
+<p><img src="../img/metadata_view.png" width="400"/></p>
+</p>
+<p>R is particularly good at handling this type of <strong>categorical
+data</strong>. Rather than simply storing this information as text, the
+data is represented in a specific data structure which allows the user
+to sort and manipulate the data in a quick and efficient manner. We will
+discuss this in more detail as we go through the different lessons in
+R!</p>
+</div>
+<div id="the-functional-analysis-results" class="section level3">
+<h3>The functional analysis results</h3>
+<p>We will be using the results of the functional analysis to learn
+about packages/functions from the <a
+href="https://www.tidyverse.org/packages/">Tidyverse suite of integrated
+packages</a>. These packages are designed to work together to make
+common data science operations like data wrangling, tidying,
+reading/writing, parsing, and visualizing, more user-friendly.</p>
+</div>
+</div>
+<div id="best-practices" class="section level2">
+<h2>Best practices</h2>
+<p>Before we move on to more complex concepts and getting familiar with
+the language, we want to point out a few things about best practices
+when working with R which will help you stay organized in the long
+run:</p>
+<ul>
+<li>Code and workflow are more reproducible if we can document
+everything that we do. Our end goal is not just to “do stuff”, but to do
+it in a way that anyone can easily and exactly replicate our workflow
+and results. <strong>All code should be written in the script editor and
+saved to file, rather than working in the console.</strong></li>
+<li>The <strong>R console</strong> should be mainly used to inspect
+objects, test a function or get help.</li>
+<li>Use <code>#</code> signs to comment. <strong>Comment
+liberally</strong> in your R scripts. This will help future you and
+other collaborators know what each line of code (or code block) was
+meant to do. Anything to the right of a <code>#</code> is ignored by R.
+<em>A shortcut for this is</em>
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> if you want to comment an
+entire chunk of text.</li>
+</ul>
+<hr />
+<p><em>This lesson has been developed by members of the teaching team at
+the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan
+Bioinformatics Core (HBC)</a>. These are open access materials
+distributed under the terms of the <a
+href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+Attribution license</a> (CC BY 4.0), which permits unrestricted use,
+distribution, and reproduction in any medium, provided the original
+author and source are credited.</em></p>
+<ul>
+<li><em>The materials used in this lesson are adapted from work that is
+Copyright © Data Carpentry (<a href="http://datacarpentry.org/"
+class="uri">http://datacarpentry.org/</a>). All Data Carpentry
+instructional material is made available under the <a
+href="https://creativecommons.org/licenses/by/4.0/">Creative Commons
+Attribution license</a> (CC BY 4.0).</em></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
